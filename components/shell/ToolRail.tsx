@@ -1,25 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { BarChart3, CheckCircle2, Code2, Hammer, Radio, Rocket, Settings, UserRound } from "lucide-react";
+import { BarChart3, FileText, Gauge, LayoutDashboard, PackageSearch, Settings, UserRound } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
 
-const TOOLS: { id: string; label: string; href: string; icon: typeof Radio; match: string[] }[] = [
-  { id: "live", label: "Live", href: "/overview", icon: Radio, match: ["/overview", "/brands", "/weekly"] },
-  { id: "code", label: "Code", href: "/guide#api", icon: Code2, match: ["/guide"] },
-  { id: "test", label: "Test", href: "/integrations", icon: CheckCircle2, match: ["/integrations"] },
-  { id: "build", label: "Build", href: "/reports", icon: Hammer, match: ["/reports", "/statement"] },
-  { id: "deploy", label: "Deploy", href: "/guide#deploy", icon: Rocket, match: [] },
-  { id: "monitor", label: "Monitor", href: "/drr", icon: BarChart3, match: ["/drr", "/forecast", "/product-analytics"] },
+const TOOLS: { id: string; label: string; href: string; icon: typeof LayoutDashboard; match: string[] }[] = [
+  { id: "portfolio", label: "Portfolio", href: "/brands", icon: LayoutDashboard, match: ["/brands"] },
+  { id: "overview", label: "Overview", href: "/overview", icon: BarChart3, match: ["/overview", "/weekly"] },
+  { id: "report", label: "Detail report", href: "/story", icon: FileText, match: ["/story", "/statement", "/reports"] },
+  { id: "unit", label: "Unit economics", href: "/unit-economics", icon: Gauge, match: ["/unit-economics"] },
+  { id: "products", label: "Product analytics", href: "/product-analytics", icon: PackageSearch, match: ["/product-analytics"] },
+  { id: "monitor", label: "Monitor", href: "/drr", icon: BarChart3, match: ["/drr", "/forecast", "/explorer"] },
 ] as const;
 
 export function ToolRail() {
   const pathname = usePathname();
   return (
-    <nav aria-label="Nira workflow tools" className="border-b border-line bg-surface px-4 py-3 sm:px-7 lg:px-9">
-      <div className="mx-auto flex max-w-[1760px] items-center justify-between gap-3 overflow-x-auto">
-        <div className="flex min-w-max items-center gap-1.5 sm:gap-2.5">
+    <nav aria-label="Nira workflow tools" className="min-w-0 overflow-hidden border-b border-line bg-surface px-4 py-3 sm:px-7 lg:px-9">
+      <div className="mx-auto flex max-w-[1760px] min-w-0 items-center justify-between gap-3">
+        <div className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex min-w-max items-center gap-1.5 sm:gap-2.5">
           {TOOLS.map((tool, index) => {
             const active = tool.match.includes(pathname);
             const Icon = tool.icon;
@@ -42,6 +43,7 @@ export function ToolRail() {
               </div>
             );
           })}
+          </div>
         </div>
         <div className="hidden shrink-0 items-center gap-2 text-ink-4 sm:flex" aria-label="Account and settings">
           <span className="grid size-8 place-items-center rounded-full border border-line bg-surface-2 text-brand-ink"><UserRound size={15} /></span>

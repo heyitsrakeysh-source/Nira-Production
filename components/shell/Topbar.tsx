@@ -10,7 +10,6 @@ import {
   CloudCheck,
   Command,
   LogOut,
-  Menu,
   MessageSquare,
   Monitor,
   Moon,
@@ -49,10 +48,8 @@ function useOutside<T extends HTMLElement>(onClose: () => void) {
 
 export function Topbar({
   onOpenPalette,
-  onOpenMobileNav,
 }: {
   onOpenPalette: () => void;
-  onOpenMobileNav: () => void;
 }) {
   const [menu, setMenu] = useState<"brand" | "bell" | "user" | null>(null);
   const [syncing, setSyncing] = useState(false);
@@ -95,14 +92,6 @@ export function Topbar({
         scrolled ? "border-line shadow-xs" : "border-transparent",
       )}
     >
-      <button
-        onClick={onOpenMobileNav}
-        aria-label="Open navigation"
-        className="grid size-8 shrink-0 place-items-center rounded-md text-ink-2 transition-colors hover:bg-surface-3 lg:hidden"
-      >
-        <Menu size={17} />
-      </button>
-
       <div ref={wrapRef} className="flex min-w-0 flex-1 items-center gap-3">
         {/* --- brand switcher --- */}
         <div className="relative">
