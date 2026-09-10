@@ -8,7 +8,7 @@ import { cn } from "@/lib/cn";
 const TOOLS: { id: string; label: string; href: string; icon: typeof LayoutDashboard; match: string[] }[] = [
   { id: "portfolio", label: "Portfolio", href: "/brands", icon: LayoutDashboard, match: ["/brands"] },
   { id: "overview", label: "Overview", href: "/overview", icon: BarChart3, match: ["/overview", "/weekly"] },
-  { id: "report", label: "Detail report", href: "/story", icon: FileText, match: ["/story", "/statement", "/reports"] },
+  { id: "report", label: "Detail report", href: "/scrum", icon: FileText, match: ["/scrum", "/story", "/statement", "/reports"] },
   { id: "unit", label: "Unit economics", href: "/unit-economics", icon: Gauge, match: ["/unit-economics"] },
   { id: "products", label: "Product analytics", href: "/product-analytics", icon: PackageSearch, match: ["/product-analytics"] },
   { id: "monitor", label: "Monitor", href: "/drr", icon: BarChart3, match: ["/drr", "/forecast", "/explorer"] },

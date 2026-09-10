@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40"
+     fill="none" role="img" aria-label="Nira">
+  <defs>
+    <linearGradient id="niraGrad" x1="7" y1="33" x2="33" y2="7" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2b6fff"/>
+      <stop offset=".33" stop-color="#12c3a0"/>
+      <stop offset=".58" stop-color="#8fd34a"/>
+      <stop offset=".8"  stop-color="#ffb020"/>
+      <stop offset="1"   stop-color="#ff5245"/>
+    </linearGradient>
+  </defs>
+  <path d="M9 31V11.5L31 28.5V9" stroke="url(#niraGrad)" stroke-width="6.6"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
