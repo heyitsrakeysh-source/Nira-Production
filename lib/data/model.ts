@@ -348,16 +348,6 @@ export interface BrandProfile {
 
 export const BRAND_PROFILES: BrandProfile[] = [
   {
-    id: "bxxyshoes",
-    name: "BxxyShoes",
-    initials: "BX",
-    plan: "Growth",
-    category: "Footwear",
-    orders: 1, aov: 1, cogs: 1, cac: 1, fixed: 1, shipping: 1, returns: 1,
-    cacDrift: 1,
-    headline: "Revenue growing, margin eaten by rising acquisition cost.",
-  },
-  {
     id: "lunelabs",
     name: "Lune Labs",
     initials: "LL",
@@ -391,7 +381,7 @@ export const BRAND_PROFILES: BrandProfile[] = [
   },
 ];
 
-export const DEFAULT_BRAND_ID = BRAND_PROFILES[0].id;
+export const DEFAULT_BRAND_ID = "nike";
 
 export function brandProfile(id: string): BrandProfile {
   return BRAND_PROFILES.find((b) => b.id === id) ?? BRAND_PROFILES[0];

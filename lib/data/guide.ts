@@ -88,7 +88,7 @@ export const ENV_VARS: EnvVar[] = [
   { key: "AUTH_URL", purpose: "Canonical URL of the deployment, used for OAuth callbacks.", example: "https://pnl.yourbrand.com", required: true, group: "Auth" },
   { key: "AUTH_GOOGLE_ID", purpose: "Google OAuth client id for team sign-in.", example: "1234567890-abc.apps.googleusercontent.com", required: false, group: "Auth" },
   { key: "AUTH_GOOGLE_SECRET", purpose: "Google OAuth client secret.", example: "GOCSPX-…", required: false, group: "Auth" },
-  { key: "SHOPIFY_STORE_DOMAIN", purpose: "Shop domain the Admin API is called against.", example: "bxxyshoes.myshopify.com", required: true, group: "Integrations" },
+  { key: "SHOPIFY_STORE_DOMAIN", purpose: "Shop domain the Admin API is called against.", example: "your-store.myshopify.com", required: true, group: "Integrations" },
   { key: "SHOPIFY_ADMIN_TOKEN", purpose: "Admin API access token with read_orders and read_products.", example: "shpat_…", required: true, group: "Integrations" },
   { key: "SHOPIFY_WEBHOOK_SECRET", purpose: "Verifies webhook payload signatures.", example: "whsec_…", required: true, group: "Integrations" },
   { key: "AMAZON_SP_CLIENT_ID", purpose: "Selling Partner API application client id.", example: "amzn1.application-oa2-client.…", required: false, group: "Integrations" },

@@ -327,7 +327,7 @@ export const REGIONS = ["All regions", "North", "West", "South", "East"];
  * ==========================================================================*/
 
 export const BRANDS = [
-  { id: "bxxyshoes", name: "BxxyShoes", plan: "Growth", initials: "BX" },
+  { id: "nike", name: "Nike", plan: "Enterprise", initials: "NK" },
   { id: "lunelabs", name: "Lune Labs", plan: "Scale", initials: "LL" },
   { id: "northwear", name: "Northwear Co.", plan: "Growth", initials: "NW" },
 ];
@@ -336,7 +336,7 @@ export const CURRENT_USER = {
   name: "Rakesh Suthar",
   role: "Founder",
   initials: "RS",
-  email: "rakesh@bxxyshoes.in",
+  email: "rakesh@nira.local",
 };
 
 export interface Notification {
