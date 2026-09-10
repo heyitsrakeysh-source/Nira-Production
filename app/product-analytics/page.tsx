@@ -1,0 +1,20 @@
+"use client";
+
+import Link from "next/link";
+import { ArrowRight, PackageSearch } from "lucide-react";
+import { useMemo } from "react";
+import { useWorkspace } from "@/lib/store";
+import { skuRowsFor } from "@/lib/data/skus";
+import { money } from "@/lib/format";
+import { Chip, StatusBadge } from "@/components/ui/Bits";
+import { PageHeader, PageShell } from "@/components/shell/PageHeader";
+
+export default function ProductAnalyticsPage() {
+  const { brand, current } = useWorkspace();
+  const rows = useMemo(() => skuRowsFor(current).filter((row) => !row.isLongTail).sort((a, b) => b.totalContribution - a.totalContribution), [current]);
+  const best = rows[0];
+  const worst = rows[rows.length - 1];
+  const max = Math.max(...rows.map((row) => Math.abs(row.totalContribution)), 1);
+  const unallocatedSpend = current.totalMarketing * 0.08;
+  return <PageShell><PageHeader eyebrow={<><Chip tone="brand">{brand.name}</Chip><Chip tone="neutral">Product intelligence</Chip></>} title="Product analytics" subtitle="See which products create contribution, which ones consume it, and where the next merchandising decision should land." actions={<Link href="/unit-economics" className="inline-flex items-center gap-2 rounded-lg border border-line bg-surface px-3.5 py-2.5 text-[13px] font-semibold text-ink hover:border-line-strong">Unit economics <ArrowRight size={15} /></Link>} /><div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4"><div className="card p-4"><p className="label-xs">Top contributor</p><p className="mt-2 truncate text-[17px] font-semibold text-ink">{best?.name ?? "No product data"}</p><p className="mt-1 text-[12px] text-good-ink">{best ? money(best.totalContribution) : "-"}</p></div><div className="card p-4"><p className="label-xs">Needs review</p><p className="mt-2 truncate text-[17px] font-semibold text-ink">{worst?.name ?? "No product data"}</p><p className="mt-1 text-[12px] text-critical-ink">{worst ? money(worst.totalContribution) : "-"}</p></div><div className="card p-4"><p className="label-xs">Catalog coverage</p><p className="mt-2 text-[17px] font-semibold text-ink">{rows.length} products</p><p className="mt-1 text-[12px] text-ink-3">Based on the current period</p></div><div className="card p-4"><p className="label-xs">Unallocated spend</p><p className="mt-2 text-[17px] font-semibold text-warning-ink">{money(unallocatedSpend)}</p><p className="mt-1 text-[12px] text-ink-3">Shown honestly, never hidden in ROAS</p></div></div><div className="card mt-6 p-4"><div className="flex items-start justify-between gap-3"><div><h2 className="text-[15px] font-semibold text-ink">Contribution by product</h2><p className="mt-1 text-[12px] text-ink-3">Ordered from strongest to weakest after variable costs</p></div><PackageSearch size={18} className="text-brand-ink" /></div><div className="mt-5 space-y-3">{rows.map((row) => { const positive = row.totalContribution >= 0; return <div key={row.id} className="grid grid-cols-[minmax(0,1fr)_110px_92px] items-center gap-3 border-b border-line-soft pb-3 last:border-0 last:pb-0"><div className="min-w-0"><div className="flex items-center gap-2"><p className="truncate text-[13px] font-semibold text-ink">{row.name}</p><StatusBadge status={positive ? "good" : "critical"} label={positive ? "Healthy" : "Review"} /></div><div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-3"><div className={`h-full rounded-full ${positive ? "bg-good" : "bg-critical"}`} style={{ width: `${Math.max(4, (Math.abs(row.totalContribution) / max) * 100)}%` }} /></div></div><p className="tnum text-right text-[12px] text-ink-3">{row.orders} orders</p><p className={`tnum text-right text-[14px] font-semibold ${positive ? "text-good-ink" : "text-critical-ink"}`}>{money(row.totalContribution)}</p></div>; })}</div></div><div className="mt-4 flex items-center gap-2 rounded-xl border border-line bg-surface-2 px-4 py-3 text-[12.5px] text-ink-3"><StatusBadge status="warning" label="Provisional model" /><span>Allocation uses local deterministic weights today. In production, keep evidence tier and settlement state beside every product row.</span></div></PageShell>;
+}
