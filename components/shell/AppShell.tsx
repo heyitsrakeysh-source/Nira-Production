@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState, type ReactNode } from "react";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { CommandPalette } from "./CommandPalette";
+import { ToolRail } from "./ToolRail";
 
 export function AppShell({ children }: { children: ReactNode }) {
   const [collapsed, setCollapsed] = useState(false);
@@ -43,6 +44,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         style={{ ["--shell-pad" as string]: collapsed ? "var(--sidebar-w-collapsed)" : "var(--sidebar-w)" }}
       >
         <Topbar onOpenPalette={openPalette} onOpenMobileNav={() => setMobileOpen(true)} />
+        <ToolRail />
 
         <main className="flex-1">{children}</main>
       </div>

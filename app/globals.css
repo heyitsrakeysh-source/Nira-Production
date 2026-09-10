@@ -271,7 +271,7 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-pop: var(--shadow-pop);
 
-  --font-sans: Calibri, "Proxima Nova", "Segoe UI", sans-serif;
+  --font-sans: var(--font-sans-ui), Inter, "Segoe UI", sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
 
@@ -291,7 +291,7 @@ html {
 body {
   background: var(--canvas);
   color: var(--ink);
-  font-family: Calibri, "Proxima Nova", "Segoe UI", sans-serif;
+  font-family: var(--font-sans);
   font-feature-settings: "cv01", "ss03";
   font-variant-ligatures: contextual;
   -webkit-font-smoothing: antialiased;

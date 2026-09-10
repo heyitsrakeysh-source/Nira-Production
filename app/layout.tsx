@@ -1,9 +1,12 @@
 import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider, THEME_BOOT_SCRIPT } from "@/components/shell/ThemeProvider";
 import { ToastProvider } from "@/components/shell/Toast";
 import { WorkspaceProvider } from "@/lib/store";
 import { AppShell } from "@/components/shell/AppShell";
+
+const inter = Inter({ subsets: ["latin"], weight: ["400", "600"], variable: "--font-sans-ui", display: "swap" });
 
 export const metadata: Metadata = {
   title: {
@@ -27,7 +30,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_BOOT_SCRIPT }} />
       </head>
-      <body className="antialiased">
+      <body className={`${inter.variable} antialiased`}>
         <ThemeProvider>
           <ToastProvider>
             <WorkspaceProvider>
