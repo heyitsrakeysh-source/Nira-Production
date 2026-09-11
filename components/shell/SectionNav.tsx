@@ -40,7 +40,7 @@ export function SectionNav({ sections, className }: { sections: SectionDef[]; cl
     <nav
       aria-label="Sections on this page"
       className={cn(
-        "sticky top-[68px] z-30 -mx-1 flex gap-1 overflow-x-auto rounded-lg bg-surface px-1 py-1",
+        "relative z-30 -mx-1 flex flex-wrap gap-1 rounded-lg bg-surface px-1 py-1 sm:sticky sm:top-[68px]",
         className,
       )}
     >

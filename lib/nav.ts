@@ -13,6 +13,8 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
+  Users,
+  BellRing,
 } from "lucide-react";
 
 export interface NavItem {
@@ -45,6 +47,8 @@ export const NAV: NavGroup[] = [
       { href: "/unit-economics", label: "Unit economics", icon: Gauge, hint: "Per-order and per-SKU" },
       { href: "/explorer", label: "Explorer", icon: Compass, hint: "Flow, leaks and what-if" },
       { href: "/reports", label: "Reports", icon: FileBarChart2, hint: "Board pack and digests" },
+      { href: "/alerts", label: "Alerts & insights", icon: BellRing, hint: "Ranked issues and opportunities" },
+      { href: "/team", label: "Team & ownership", icon: Users, hint: "Owners across brands and channels" },
     ],
   },
   {

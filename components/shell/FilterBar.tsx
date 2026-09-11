@@ -36,7 +36,7 @@ export function FilterBar({
         className,
       )}
     >
-      <DateRangePicker className="w-[300px]" />
+      <DateRangePicker className="w-full min-w-0 sm:w-[300px]" />
 
       <Select
         ariaLabel="Channel"
@@ -46,7 +46,7 @@ export function FilterBar({
         className="w-[148px]"
       />
 
-      <div className="ml-auto flex items-center gap-2">
+      <div className="flex w-full min-w-0 flex-wrap items-center gap-2 sm:ml-auto sm:w-auto">
         {right}
         {showActions ? (
           <>

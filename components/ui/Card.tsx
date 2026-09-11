@@ -1,4 +1,7 @@
-import type { ReactNode } from "react";
+"use client";
+
+import { useEffect, useId, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/cn";
 
 export function Card({
@@ -15,7 +18,7 @@ export function Card({
   return (
     <section
       className={cn(
-        "relative rounded-lg border border-line bg-surface shadow-xs",
+        "relative min-w-0 rounded-lg border border-line bg-surface shadow-xs",
         "transition-[box-shadow,border-color,transform] duration-200",
         interactive &&
           "can-hover:-translate-y-px hover:border-line-strong hover:shadow-md focus-within:border-line-strong",
@@ -42,8 +45,8 @@ export function CardHeader({
   info?: string;
 }) {
   return (
-    <header className={cn("flex items-start justify-between gap-4", className)}>
-      <div className="min-w-0">
+    <header className={cn("flex flex-wrap items-start justify-between gap-3", className)}>
+      <div className="min-w-0 flex-1 basis-32">
         <h2 className="flex items-center gap-1.5 text-[13.5px] font-semibold tracking-[-0.012em] text-ink">
           {title}
           {info ? <InfoDot text={info} /> : null}
@@ -52,37 +55,49 @@ export function CardHeader({
           <p className="mt-0.5 text-[12.5px] leading-snug text-ink-3">{subtitle}</p>
         ) : null}
       </div>
-      {action ? <div className="flex shrink-0 items-center gap-2">{action}</div> : null}
+      {action ? <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">{action}</div> : null}
     </header>
   );
 }
 
 export function InfoDot({ text }: { text: string }) {
+  const id = useId();
+  const [position, setPosition] = useState<{ left: number; bottom: number; width: number } | null>(null);
+  const show = (element: HTMLElement) => {
+    const rect = element.getBoundingClientRect();
+    const width = Math.min(224, document.documentElement.clientWidth - 24);
+    setPosition({ left: Math.max(12, Math.min(rect.left + rect.width / 2 - width / 2, document.documentElement.clientWidth - width - 12)), bottom: window.innerHeight - rect.top + 8, width });
+  };
+  useEffect(() => {
+    if (!position) return;
+    const hide = () => setPosition(null);
+    window.addEventListener("resize", hide);
+    window.addEventListener("scroll", hide, true);
+    return () => { window.removeEventListener("resize", hide); window.removeEventListener("scroll", hide, true); };
+  }, [position]);
   return (
     <span className="group/info relative inline-flex">
       <button
         type="button"
         aria-label={text}
+        aria-describedby={position ? id : undefined}
+        onMouseEnter={(event) => show(event.currentTarget)}
+        onMouseLeave={() => setPosition(null)}
+        onFocus={(event) => show(event.currentTarget)}
+        onBlur={() => setPosition(null)}
+        onKeyDown={(event) => { if (event.key === "Escape") setPosition(null); }}
         className="grid size-[15px] cursor-help place-items-center rounded-full border border-line-strong text-[11.5px] font-bold text-ink-4 transition-colors group-hover/info:border-brand group-hover/info:text-brand"
       >
         i
       </button>
-      <span className="sr-only">{text}</span>
-      <span
+      {position ? createPortal(<span
+        id={id}
         role="tooltip"
-        className={
-          // Origin-aware and delayed: a tooltip that fires the instant the
-          // pointer grazes it is noise, not help.
-          "pointer-events-none absolute bottom-full left-1/2 z-50 mb-2 w-56 origin-bottom " +
-          "-translate-x-1/2 scale-[0.97] rounded-md border border-line bg-surface p-2.5 " +
-          "text-[11.5px] font-normal leading-relaxed text-ink-2 opacity-0 shadow-pop " +
-          "transition-[opacity,transform] duration-[var(--dur-fast)] ease-[var(--ease-out)] " +
-          "group-hover/info:scale-100 group-hover/info:opacity-100 group-hover/info:delay-[400ms] " +
-          "group-focus-within/info:scale-100 group-focus-within/info:opacity-100"
-        }
+        style={position}
+        className="pointer-events-none fixed z-50 rounded-md border border-line bg-surface p-2.5 text-[12px] font-normal leading-relaxed text-ink-2 shadow-pop [overflow-wrap:anywhere]"
       >
         {text}
-      </span>
+      </span>, document.body) : null}
     </span>
   );
 }

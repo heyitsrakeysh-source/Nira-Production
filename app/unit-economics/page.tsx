@@ -137,9 +137,10 @@ export default function UnitEconomicsPage() {
       <div className="mt-3 grid grid-cols-1 gap-3 xl:grid-cols-[1.35fr_1fr]">
         <ChartCard
           title="Which products to act on"
-          subtitle="Split by how much they sell and whether each sale makes money. The box a product lands in is the action."
-          info="Colour here is polarity, not identity: two poles with a neutral midpoint, which is why the categorical slot rules don't apply."
+          subtitle="Find products to scale, grow, fix or cut. Read the action guide below the plot."
+          info="Each dot is one product. Higher means more kept per order; farther right means more orders. The lines mark break-even and median order volume."
           insight={skuInsight(losers, skuLoss, current, skuRows.length)}
+          footer={<QuadrantKey skus={skuRows} />}
           table={{
             columns: ["SKU", "Orders", "Contribution / order", "Total contribution"],
             rows: skuRows.filter((s) => !s.isLongTail).map((s) => [
@@ -163,23 +164,23 @@ export default function UnitEconomicsPage() {
             {losers.map((s, i) => {
               const action = skuAction(s, current);
               return (
-                <li key={s.id} className="flex items-center gap-3 py-2.5">
+                <li key={s.id} className="grid grid-cols-[1rem_minmax(0,1fr)] items-center gap-x-3 gap-y-2 py-3 sm:flex">
                   <span className="tnum w-4 shrink-0 text-[11.5px] font-semibold text-ink-4">{i + 1}</span>
                   <span className="min-w-0 flex-1">
-                    <span className="block truncate text-[12.5px] font-medium text-ink">{s.name}</span>
+                    <span className="block text-[12.5px] font-medium text-ink [overflow-wrap:anywhere]">{s.name}</span>
                     <span className="mt-1 flex items-center gap-2">
                       <MiniBar value={s.lossShare} max={100} tone="critical" width={64} />
                       <span className="tnum text-[11.5px] text-ink-4">{pct(s.lossShare)} of the loss</span>
                     </span>
                   </span>
-                  <span className="shrink-0 text-right">
+                  <span className="col-start-2 flex flex-wrap items-baseline gap-x-2 text-left sm:block sm:shrink-0 sm:text-right">
                     <span className="tnum block text-[12.5px] font-bold text-critical-ink">{money(s.contributionPerOrder)}</span>
                     <span className="tnum block text-[11.5px] text-ink-4">{money(s.totalContribution)} total</span>
                   </span>
                   <button
                     onClick={() => push({ title: `${action}: ${s.name}`, body: "Actions are demo-only in the prototype. Wire them to your catalogue and ad platforms.", tone: "info" })}
                     className={cn(
-                      "shrink-0 rounded-md border px-2 py-1 text-[11.5px] font-medium transition-colors",
+                      "col-start-2 justify-self-start rounded-md border px-2 py-1 text-[11.5px] font-medium transition-colors sm:shrink-0",
                       action === "Discontinue"
                         ? "border-critical/40 bg-critical-soft text-critical-ink hover:border-critical"
                         : "border-line bg-surface text-brand-ink hover:border-brand",
@@ -200,14 +201,15 @@ export default function UnitEconomicsPage() {
           title="SKU economics"
           subtitle={`${rows.length} SKUs · sorted by ${sort.key === "totalContribution" ? "profit impact" : sort.key}`}
           action={
-            <div className="flex items-center gap-2">
-              <span className="relative">
+            <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto">
+              <span className="relative w-full sm:w-auto">
                 <Search size={13} className="absolute top-1/2 left-2.5 -translate-y-1/2 text-ink-4" />
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Find a SKU…"
-                  className="h-8 w-[170px] rounded-md border border-line bg-surface pr-2.5 pl-7 text-[12.5px] text-ink placeholder:text-ink-4 focus:border-brand focus:outline-none"
+                  aria-label="Find a SKU"
+                  className="h-8 w-full rounded-md border border-line bg-surface pr-2.5 pl-7 text-[12.5px] text-ink placeholder:text-ink-4 focus:border-brand focus:outline-none sm:w-[170px]"
                 />
               </span>
               <Select
@@ -216,7 +218,7 @@ export default function UnitEconomicsPage() {
                 onChange={setCategory}
                 size="sm"
                 options={CATEGORIES.map((c) => ({ value: c, label: c }))}
-                className="w-[150px]"
+                className="w-full sm:w-[150px]"
               />
             </div>
           }
@@ -307,13 +309,13 @@ function SkuRowView({ sku, month, onAct }: { sku: SkuRow; month: typeof import("
           "group-hover:bg-surface-2",
         )}
       >
-        <span className="flex items-center gap-2">
+        <span className="flex w-36 flex-wrap items-center gap-2 sm:w-56">
           <span
             className="size-2 shrink-0 rounded-full"
             style={{ background: negative ? "var(--critical)" : "var(--good)" }}
             aria-hidden
           />
-          <span className="truncate">{sku.name}</span>
+          <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">{sku.name}</span>
           <span className="rounded bg-surface-3 px-1.5 py-px text-[11.5px] font-semibold tracking-wide text-ink-4 ">
             {sku.category}
           </span>

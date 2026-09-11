@@ -305,39 +305,48 @@ export function useTooltip() {
   return { tip, show, hide };
 }
 
-export function ChartTooltip({ tip, containerWidth }: { tip: TooltipState | null; containerWidth: number }) {
+export function ChartTooltip({ tip, containerWidth, containerHeight, id }: { tip: TooltipState | null; containerWidth: number; containerHeight?: number; id?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [height, setHeight] = useState(0);
+  useLayoutEffect(() => {
+    if (ref.current) setHeight(ref.current.getBoundingClientRect().height);
+  }, [tip, containerWidth]);
   if (!tip) return null;
-  const W = 208;
+  const W = Math.min(224, Math.max(0, containerWidth - 8));
   const flip = tip.x + W + 20 > containerWidth;
+  const left = Math.max(4, Math.min(flip ? tip.x - W - 12 : tip.x + 12, containerWidth - W - 4));
+  const top = Math.max(4, Math.min(tip.y - 12, containerHeight === undefined ? Infinity : containerHeight - height - 4));
   return (
     <div
+      ref={ref}
+      id={id}
       role="tooltip"
       className="pointer-events-none absolute z-30 rounded-lg border border-line bg-surface p-2.5 shadow-pop"
       style={{
         width: W,
-        left: flip ? tip.x - W - 12 : tip.x + 12,
-        top: Math.max(4, tip.y - 12),
+        left,
+        top,
         transition: "left 90ms linear, top 90ms linear",
       }}
     >
-      <p className="mb-1.5 text-[11.5px] font-bold tracking-wide text-ink ">{tip.title}</p>
+      <p className="mb-1.5 text-[12px] font-semibold text-ink [overflow-wrap:anywhere]">{tip.title}</p>
       <ul className="space-y-1">
         {tip.rows.map((r, i) => (
-          <li key={i} className="flex items-center justify-between gap-3 text-[11.5px]">
+          <li key={i} className="flex flex-wrap items-center justify-between gap-x-3 gap-y-0.5 text-[12px]">
             <span className="flex min-w-0 items-center gap-1.5">
               {r.color ? (
                 <span className="size-2 shrink-0 rounded-[2px]" style={{ background: r.color }} aria-hidden />
               ) : null}
               <span className="truncate text-ink-2">{r.label}</span>
             </span>
-            <span className={cn("tnum shrink-0", r.strong ? "font-bold text-ink" : "font-semibold text-ink")}>
+            <span className={cn("tnum max-w-full [overflow-wrap:anywhere]", r.strong ? "font-bold text-ink" : "font-semibold text-ink")}>
               {r.value}
             </span>
           </li>
         ))}
       </ul>
       {tip.note ? (
-        <p className="mt-1.5 border-t border-line pt-1.5 text-[11.5px] leading-snug text-ink-4">{tip.note}</p>
+        <p className="mt-1.5 border-t border-line pt-1.5 text-[12px] leading-snug text-ink-3 [overflow-wrap:anywhere]">{tip.note}</p>
       ) : null}
     </div>
   );
@@ -384,7 +393,7 @@ export function ChartCard({
   return (
     <section
       className={cn(
-        "relative flex flex-col rounded-lg border border-line bg-surface p-4 shadow-xs transition-[box-shadow,border-color] duration-200 hover:shadow-sm",
+        "relative flex min-w-0 flex-col rounded-lg border border-line bg-surface p-4 shadow-xs transition-[box-shadow,border-color] duration-200 hover:shadow-sm",
         className,
       )}
     >
@@ -427,7 +436,7 @@ export function ChartCard({
 
       {legend ? <div className="mt-3">{legend}</div> : null}
 
-      <div className={cn("relative mt-3 min-h-0 flex-1", bodyClassName)}>
+      <div className={cn("relative mt-3 min-h-0 min-w-0 flex-1", bodyClassName)}>
         {view === "chart" ? (
           children
         ) : table ? (

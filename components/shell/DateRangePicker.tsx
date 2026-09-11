@@ -87,7 +87,7 @@ export function DateRangePicker({ className }: { className?: string }) {
       </button>
 
       {open ? (
-        <div className="anim-scale-in absolute top-full left-0 z-50 mt-1.5 w-[560px] max-w-[92vw] origin-top-left rounded-lg border border-line bg-surface shadow-pop">
+        <div role="dialog" aria-label="Period and comparison" className="anim-scale-in absolute top-full left-0 z-50 mt-1.5 max-h-[80vh] w-full origin-top-left overflow-y-auto rounded-lg border border-line bg-surface shadow-pop sm:w-[560px] sm:max-w-[calc(100vw-5rem)]">
           <div className="grid grid-cols-1 divide-line sm:grid-cols-2 sm:divide-x">
             {/* ---------------- period ---------------- */}
             <div className="p-2">
@@ -106,7 +106,7 @@ export function DateRangePicker({ className }: { className?: string }) {
                       >
                         <span className="font-medium">{p.label}</span>
                         <span className="flex items-center gap-2">
-                          <span className="tnum text-[11.5px] text-ink-4">{previewOf(p.id)}</span>
+                          <span className="tnum text-right text-[11.5px] text-ink-4">{previewOf(p.id)}</span>
                           {active ? <Check size={13} /> : null}
                         </span>
                       </button>
@@ -155,7 +155,7 @@ export function DateRangePicker({ className }: { className?: string }) {
                       >
                         <span className="font-medium">{m.label}</span>
                         <span className="flex items-center gap-2">
-                          <span className="tnum text-[11.5px] text-ink-4">{comparePreview(m.id)}</span>
+                          <span className="tnum text-right text-[11.5px] text-ink-4">{comparePreview(m.id)}</span>
                           {active ? <Check size={13} /> : null}
                         </span>
                       </button>
@@ -180,7 +180,7 @@ export function DateRangePicker({ className }: { className?: string }) {
             </div>
           </div>
 
-          <div className="flex items-center justify-between gap-3 border-t border-line bg-surface-2 px-3 py-2.5">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-t border-line bg-surface-2 px-3 py-2.5 sm:flex-nowrap">
             <p className="text-[11.5px] text-ink-3">
               Showing <strong className="text-ink">{from?.label}</strong> to{" "}
               <strong className="text-ink">{to?.label}</strong>, compared against{" "}
@@ -214,7 +214,7 @@ function MonthSelect({
 }) {
   const { months } = useWorkspace();
   return (
-    <label className="block flex-1">
+    <label className="block min-w-0 flex-1">
       <span className="mb-1 block text-[11.5px] font-medium text-ink-4">{label}</span>
       <select
         value={value}

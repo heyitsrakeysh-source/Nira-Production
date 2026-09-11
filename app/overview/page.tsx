@@ -365,8 +365,8 @@ export default function OverviewPage() {
       <div className={cn("grid grid-cols-1 items-start gap-3 xl:grid-cols-[1.25fr_1fr]", isPending && "is-pending")}>
         <ChartCard
           title="Product map"
-          subtitle="Split by how much they sell and whether each sale makes money. The box a product lands in is the action."
-          info="Uniform dots: position carries the meaning here, so nothing has to be decoded from size."
+          subtitle="Find products to scale, grow, fix or cut. Read the action guide below the plot."
+          info="Each dot is one product. Higher means more kept per order; farther right means more orders. The lines mark break-even and median order volume."
           insight={skuInsight(losingSkus(skuRows), losingSkus(skuRows).reduce((s2, k) => s2 + k.totalContribution, 0), current, skuRows.length)}
           footer={<QuadrantKey skus={skuRows} />}
           table={{

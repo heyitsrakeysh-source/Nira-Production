@@ -19,7 +19,7 @@ export function PageHeader({
   return (
     <div className={cn("relative flex flex-wrap items-start justify-between gap-5 border-b border-line pb-5", className)}>
       <div className="min-w-0">
-        {eyebrow ? <div className="mb-1.5 flex items-center gap-2">{eyebrow}</div> : null}
+        {eyebrow ? <div className="mb-1.5 flex flex-wrap items-center gap-2">{eyebrow}</div> : null}
         <h1 className="text-[30px] leading-[1.08] font-semibold tracking-[-0.035em] text-ink sm:text-[32px]">
           {title}
         </h1>

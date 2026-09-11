@@ -17,20 +17,19 @@ const TOOLS: { id: string; label: string; href: string; icon: typeof LayoutDashb
 export function ToolRail() {
   const pathname = usePathname();
   return (
-    <nav aria-label="Nira workflow tools" className="min-w-0 overflow-hidden border-b border-line bg-surface px-4 py-3 sm:px-7 lg:px-9">
+    <nav aria-label="Nira workflow tools" className="min-w-0 border-b border-line bg-surface px-4 py-3 sm:px-7 lg:px-9">
       <div className="mx-auto flex max-w-[1760px] min-w-0 items-center justify-between gap-3">
-        <div className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex min-w-max items-center gap-1.5 sm:gap-2.5">
+        <div className="grid min-w-0 flex-1 grid-cols-3 gap-1.5 md:flex md:items-center lg:gap-2.5">
           {TOOLS.map((tool, index) => {
             const active = tool.match.includes(pathname);
             const Icon = tool.icon;
             return (
-              <div key={tool.id} className="flex items-center gap-1.5 sm:gap-2.5">
+              <div key={tool.id} className="flex min-w-0 items-center md:flex-1 lg:flex-none lg:gap-2.5">
                 <Link
                   href={tool.href}
                   aria-current={active ? "step" : undefined}
                   className={cn(
-                    "group flex min-w-[72px] flex-col items-center gap-1 rounded-xl px-2 py-1.5 text-[11px] font-semibold transition-colors sm:min-w-[82px]",
+                    "group flex min-w-0 flex-1 flex-col items-center gap-1 rounded-xl px-1.5 py-1.5 text-center text-[11px] leading-snug font-semibold transition-colors sm:px-2 lg:min-w-[82px]",
                     active ? "bg-brand-soft text-brand-ink" : "text-ink-4 hover:bg-surface-2 hover:text-ink-2",
                   )}
                 >
@@ -39,13 +38,12 @@ export function ToolRail() {
                   </span>
                   {tool.label}
                 </Link>
-                {index < TOOLS.length - 1 ? <span aria-hidden className="text-line-strong">→</span> : null}
+                {index < TOOLS.length - 1 ? <span aria-hidden className="hidden shrink-0 text-line-strong lg:inline">→</span> : null}
               </div>
             );
           })}
-          </div>
         </div>
-        <div className="hidden shrink-0 items-center gap-2 text-ink-4 sm:flex" aria-label="Account and settings">
+        <div className="hidden shrink-0 items-center gap-2 text-ink-4 lg:flex" aria-label="Account and settings">
           <span className="grid size-8 place-items-center rounded-full border border-line bg-surface-2 text-brand-ink"><UserRound size={15} /></span>
           <span className="grid size-8 place-items-center rounded-lg border border-line bg-surface-2"><Settings size={15} /></span>
         </div>

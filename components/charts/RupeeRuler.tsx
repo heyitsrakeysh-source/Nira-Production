@@ -55,7 +55,7 @@ function Track({
   return (
     <div className="flex items-center gap-3">
       <span className="w-[74px] shrink-0 text-[11.5px] font-medium text-ink-3">{label}</span>
-      <div ref={ref} className="relative flex-1" style={{ height }}>
+      <div ref={ref} className="relative min-w-0 flex-1" style={{ height }}>
         {width > 0 ? (
           <svg width={width} height={height} role="img" aria-label={`${label}: cost composition per ₹100 of revenue`}>
             {(() => {
